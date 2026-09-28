@@ -104,11 +104,12 @@ sudo dnf module list
 
 ## Checklist
 
-- [ ] `subscription-manager release --list` ejecutado y resultado revisado
-- [ ] `/etc/os-release` inspeccionado, linaje `ID_LIKE` identificado
-- [ ] `dnf module list` ejecutado, comportamiento de RHEL 10 confirmado
-- [ ] Evidencias curadas en `evidencias/`
+- [x] `subscription-manager release --list` ejecutado y resultado revisado
+- [x] `/etc/os-release` inspeccionado, linaje `ID_LIKE` identificado
+- [x] `dnf module list` ejecutado, comportamiento de RHEL 10 confirmado
+- [x] Evidencias curadas en `evidencias/`
 
 ## Evidencias
 
-_(pendiente — se completa cuando digas "verifica img")_
+1. ![Release list, os-release y dnf module list](evidencias/01-release-list-os-release-dnf-module-list.png)
+   Los tres comandos de la práctica en una sola terminal: `subscription-manager release --list` (10, 10.0, 10.1, 10.2 disponibles), `/etc/os-release` (confirma `ID_LIKE="centos fedora"` y `LOGO="fedora-logo-icon"`), y `dnf module list` retornando vacío tras la actualización de metadata — evidencia de los tres hallazgos del módulo.
