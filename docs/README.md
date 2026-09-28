@@ -51,14 +51,14 @@ Ambas VMs pueden correr juntas sin problema en un anfitrión de 8 GB.
 
 ## Progreso
 
-**Módulo actual: 02 / 31**
+**Módulo actual: 03 / 31**
 
 ### Fase 0 — RHEL frente al resto del ecosistema
 - [x] 00. Registro con `subscription-manager`, entitlements, instalación de RHEL 10 ([módulo](../00-subscription-manager-instalacion/00-subscription-manager-instalacion.md))
 - [x] 01. Flujo Fedora → CentOS Stream → RHEL, ciclo de vida de 10 años (EUS/ELS) ([módulo](../01-rhel-vs-fedora-vs-centos-stream/01-rhel-vs-fedora-vs-centos-stream.md))
 
 ### Fase I — Software: dnf/rpm/Flatpak al ritmo del examen
-- [ ] 02. Repos vía `subscription-manager repos`, AppStream/BaseOS
+- [x] 02. Repos vía `subscription-manager repos`, AppStream/BaseOS ([módulo](../02-repos-appstream-baseos/02-repos-appstream-baseos.md))
 - [ ] 03. Flatpak: remoto, búsqueda, instalación, listado
 - [ ] 04. Simulacro cronometrado de gestión de software
 
