@@ -54,8 +54,8 @@ Ambas VMs pueden correr juntas sin problema en un anfitrión de 8 GB.
 **Módulo actual: 02 / 31**
 
 ### Fase 0 — RHEL frente al resto del ecosistema
-- [x] 00. Registro con `subscription-manager`, entitlements, instalación de RHEL 10 ([notas](../00-subscription-manager-instalacion/notas.md))
-- [x] 01. Flujo Fedora → CentOS Stream → RHEL, ciclo de vida de 10 años (EUS/ELS) ([notas](../01-rhel-vs-fedora-vs-centos-stream/notas.md))
+- [x] 00. Registro con `subscription-manager`, entitlements, instalación de RHEL 10 ([módulo](../00-subscription-manager-instalacion/00-subscription-manager-instalacion.md))
+- [x] 01. Flujo Fedora → CentOS Stream → RHEL, ciclo de vida de 10 años (EUS/ELS) ([módulo](../01-rhel-vs-fedora-vs-centos-stream/01-rhel-vs-fedora-vs-centos-stream.md))
 
 ### Fase I — Software: dnf/rpm/Flatpak al ritmo del examen
 - [ ] 02. Repos vía `subscription-manager repos`, AppStream/BaseOS
@@ -108,20 +108,29 @@ Ambas VMs pueden correr juntas sin problema en un anfitrión de 8 GB.
 
 ```
 rhel-mastery/
-├── README.md
+├── docs/
+│   ├── README.md
+│   └── tutor.txt
+├── img/                                  (capturas crudas, gitignored)
 ├── 00-subscription-manager-instalacion/
-│   ├── notas.md
-│   ├── evidencias/
-│   └── break-and-fix.md   (si aplica)
+│   ├── 00-subscription-manager-instalacion.md
+│   └── evidencias/
 ├── 01-rhel-vs-fedora-vs-centos-stream/
-│   └── ...
+│   ├── 01-rhel-vs-fedora-vs-centos-stream.md
+│   └── evidencias/
 └── ...
 ```
 
-Cada carpeta de módulo sigue el mismo patrón que en los cursos anteriores:
-notas teóricas, comandos ejecutados con su salida relevante, capturas
-curadas en `evidencias/`, y un `break-and-fix.md` cuando el módulo incluye
-un incidente provocado.
+Cada carpeta de módulo sigue el mismo patrón que en Fedora/Arch: un único
+`NN-nombre-modulo.md` (mismo nombre que la carpeta) con encabezado de
+metadata (Estado/Fecha/Versión/Objetivo diferencial frente a Fedora),
+`## Concepto diferencial`, `## Práctica guiada`, `## Hallazgos reales`,
+`## Evidencias` (capturas numeradas en `evidencias/`, cada una con un
+párrafo de contexto) y `## Pendientes`. Los incidentes de Break & Fix van
+**integrados en el módulo correspondiente** (no en un archivo aparte),
+con las mismas subsecciones que en Fedora/Arch: Cambio deliberado →
+Síntoma → Diagnóstico y recuperación → Impacto y riesgos → Cómo evitar
+recurrencia.
 
 ## Cursos siguientes
 
