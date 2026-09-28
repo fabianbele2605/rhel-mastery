@@ -51,7 +51,7 @@ Ambas VMs pueden correr juntas sin problema en un anfitrión de 8 GB.
 
 ## Progreso
 
-**Módulo actual: 03 / 31**
+**Módulo actual: 04 / 31**
 
 ### Fase 0 — RHEL frente al resto del ecosistema
 - [x] 00. Registro con `subscription-manager`, entitlements, instalación de RHEL 10 ([módulo](../00-subscription-manager-instalacion/00-subscription-manager-instalacion.md))
@@ -59,7 +59,7 @@ Ambas VMs pueden correr juntas sin problema en un anfitrión de 8 GB.
 
 ### Fase I — Software: dnf/rpm/Flatpak al ritmo del examen
 - [x] 02. Repos vía `subscription-manager repos`, AppStream/BaseOS ([módulo](../02-repos-appstream-baseos/02-repos-appstream-baseos.md))
-- [~] 03. Flatpak: remoto, búsqueda, instalación, listado ([módulo](../03-flatpak-remoto-busqueda-instalacion/03-flatpak-remoto-busqueda-instalacion.md))
+- [x] 03. Flatpak: remoto, búsqueda, instalación, listado ([módulo](../03-flatpak-remoto-busqueda-instalacion/03-flatpak-remoto-busqueda-instalacion.md))
 - [ ] 04. Simulacro cronometrado de gestión de software
 
 ### Fase II — Almacenamiento
