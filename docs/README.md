@@ -55,7 +55,7 @@ Ambas VMs pueden correr juntas sin problema en un anfitrión de 8 GB.
 
 ### Fase 0 — RHEL frente al resto del ecosistema
 - [x] 00. Registro con `subscription-manager`, entitlements, instalación de RHEL 10 ([notas](../00-subscription-manager-instalacion/notas.md))
-- [ ] 01. Flujo Fedora → CentOS Stream → RHEL, ciclo de vida de 10 años (EUS/ELS)
+- [~] 01. Flujo Fedora → CentOS Stream → RHEL, ciclo de vida de 10 años (EUS/ELS) ([notas](../01-rhel-vs-fedora-vs-centos-stream/notas.md))
 
 ### Fase I — Software: dnf/rpm/Flatpak al ritmo del examen
 - [ ] 02. Repos vía `subscription-manager repos`, AppStream/BaseOS
