@@ -120,16 +120,87 @@ Ahora sí deberían aparecer `rhel-10-for-x86_64-baseos-rpms` y
 quedan documentados acá una vez que los veas — pueden variar según arch y
 canal).
 
+## Hallazgos reales (verdad sobre guión)
+
+Durante la práctica aparecieron varios comportamientos que la teoría no
+anticipaba. Quedan documentados acá porque son tan valiosos como el
+camino feliz:
+
+1. **`subscription-manager status` ya no dice "Overall Status: Current"**.
+   En esta versión (RHEL 10 con Simple Content Access) el output se
+   simplificó a `Estatus general: Registrado` — el modelo viejo de
+   "suscripciones actuales vs vencidas" ya no aplica de la misma forma
+   porque con SCA no hay nada que "vencer" a nivel de attach individual.
+2. **`subscription-manager list --available` y `--consumed` no existen
+   más**. Son remanentes de documentación pre-SCA. Las únicas opciones
+   reales de `list` en esta versión son `--installed` (default) y
+   `--matches`.
+3. **El controlador gráfico VMSVGA de VirtualBox genera warnings
+   `vmwgfx *ERROR*` en el boot de RHEL 10**, pero son cosmético — no
+   bloquean nada. Cambiar a `VBoxSVGA` pensando que "arreglaba" el
+   warning en realidad **rompió el modo gráfico de Anaconda**
+   (`Wayland startup failed, falling back to text mode`). Lección:
+   `VMSVGA` es la opción correcta para este guest, a pesar del ruido en
+   el log.
+4. **Los `kernel-headers`/`kernel-devel` instalados desde los repos no
+   coincidían con el kernel de la ISO** (`211.7.3` corriendo vs
+   `211.61.1` en repos) — esto rompió la primera compilación de los
+   módulos de Guest Additions (`Kernel headers not found for target
+   kernel`). Se resolvió con `sudo dnf update kernel -y` + `reboot`, lo
+   cual además disparó automáticamente el rebuild de los módulos de
+   Guest Additions como hook post-instalación del paquete `kernel`.
+
 ## Checklist
 
-- [ ] RHEL 10 instalado en `rhel10-server` (4 GB RAM, 2 vCPU, 40 GB disco)
-- [ ] Reproducido el error de `dnf repolist` sin registrar
-- [ ] Sistema registrado con `subscription-manager register`
-- [ ] `subscription-manager status` → `Overall Status: Current`
-- [ ] Entitlements confirmados con `list --available` / `list --consumed`
-- [ ] `dnf repolist` muestra BaseOS y AppStream activos
-- [ ] Evidencias curadas en `evidencias/`
+- [x] RHEL 10 instalado en `rhel10-server` (4 GB RAM, 2 vCPU, ~41 GB disco)
+- [x] Reproducido el error de `dnf repolist` sin registrar
+- [x] Sistema registrado con `subscription-manager register`
+- [x] `subscription-manager status` → Registrado (ver hallazgo #1 sobre el output real)
+- [x] Entitlements confirmados (ver hallazgo #2 sobre las flags reales de `list`)
+- [x] `dnf repolist` muestra BaseOS y AppStream activos
+- [x] Evidencias curadas en `evidencias/`
+- [x] (bonus, fuera del alcance original) Guest Additions instaladas y funcionando
 
 ## Evidencias
 
-_(pendiente — se completa cuando digas "verifica img")_
+1. ![GRUB del instalador con las 4 opciones de boot](evidencias/01-grub-menu-instalador.png)
+   Menú de GRUB del instalador de RHEL 10.2: instalación normal, test+install, FIPS, troubleshooting.
+
+2. ![Pantalla de bienvenida de Anaconda en español](evidencias/02-anaconda-bienvenida-idioma.png)
+   Primer arranque exitoso de Anaconda en modo gráfico, con VMSVGA, selección de idioma español (Colombia).
+
+3. ![Hallazgo: VBoxSVGA rompe Wayland](evidencias/03-hallazgo-vboxsvga-wayland-fallo.png)
+   Al cambiar el controlador gráfico a VBoxSVGA, Anaconda no pudo iniciar Wayland y cayó a modo texto/RDP — evidencia del hallazgo #3.
+
+4. ![Boot con VMSVGA revertido, warnings cosméticos](evidencias/04-boot-vmsvga-warnings-cosmeticos.png)
+   Con VMSVGA de nuevo, reaparecen los warnings `vmwgfx`/`e1000` pero el boot continúa sin problema — confirma que son ruido, no errores reales.
+
+5. ![Destino de instalación confirmado](evidencias/05-destino-instalacion-confirmado.png)
+   Disco de 41.28 GiB seleccionado, particionado automático, sin cifrado.
+
+6. ![Creación de usuario fbeleno](evidencias/06-creacion-usuario-fbeleno.png)
+   Usuario administrador `fbeleno` creado con membresía al grupo `wheel` (sudo), contraseña fuerte.
+
+7. ![Hostname aplicado](evidencias/07-hostname-rhel10-server-local.png)
+   Nombre de equipo configurado como `rhel10-server.local` desde la pantalla de Red y nombre de equipo.
+
+8. ![Instalación completada](evidencias/08-instalacion-completada.png)
+   Mensaje "Red Hat Enterprise Linux se ha logrado instalar y está preparado para su uso."
+
+9. ![Error de dnf sin registrar](evidencias/09-error-dnf-repolist-sin-registrar.png)
+   `sudo dnf repolist` antes de registrar: "No se pudo leer identidad del consumidor" / "No hay ningún repositorio disponible" — el error intencional central del módulo.
+
+10. ![Registro exitoso](evidencias/10-subscription-manager-register-exitoso.png)
+    `subscription-manager register` exitoso, con notificación nativa de GNOME confirmando "Registration Successful".
+
+11. ![Status registrado y flags obsoletas](evidencias/11-status-registrado-y-opciones-list-obsoletas.png)
+    `subscription-manager status` → "Estatus general: Registrado", y el error real al usar `--available`/`--consumed` (hallazgos #1 y #2).
+
+12. ![dnf repolist con BaseOS y AppStream](evidencias/12-dnf-repolist-baseos-appstream-activos.png)
+    Objetivo del módulo cumplido: `subscription-manager list --installed` confirma el producto instalado, y `dnf repolist` muestra BaseOS y AppStream activos.
+
+13. ![Hallazgo: kernel headers desfasados](evidencias/13-hallazgo-kernel-headers-desfasados.png)
+    `uname -r` vs `rpm -q kernel kernel-devel kernel-headers` mostrando el desfase de versión que rompió la primera compilación de Guest Additions (hallazgo #4).
+
+14. ![Guest Additions funcionando](evidencias/14-guest-additions-vboxguest-cargado.png)
+    `lsmod | grep vbox` confirma el módulo `vboxguest` cargado tras actualizar el kernel y reiniciar — resolución ajustada automáticamente.
