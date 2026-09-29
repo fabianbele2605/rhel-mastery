@@ -1,6 +1,6 @@
 # Módulo 05 — LVM completo cronometrado (meta: bajar de 6 minutos)
 
-- Estado: En progreso
+- Estado: Completado
 - Fecha: 2026-09-28
 - Versión: RHEL 10.2 (Coughlan)
 - Objetivo diferencial frente a Fedora: Fedora Server también usa
@@ -61,13 +61,71 @@ lsblk
 
 ## Hallazgos reales
 
-_(se completa con lo que salga en la práctica)_
+1. **El disco del sistema (`sda3`) ya es un PV** dentro del VG `rhel`,
+   con LVs `root` (35.34g) y `swap` (3.95g) — confirmado con
+   `pvs`/`vgs`/`lvs` antes de agregar el disco nuevo. El particionado
+   automático de Anaconda (módulo 00) usa LVM de fábrica, no es un
+   esquema opcional que haya que elegir a mano.
+2. **`mount -a` avisa sobre `systemd daemon-reload` tras editar `/etc/fstab`
+   a mano**: `mount: (hint) your fstab has been modified, but systemd
+   still uses the old version; use 'systemctl daemon-reload' to reload.`
+   `mount -a` funciona igual porque lee `/etc/fstab` directo sin pasar
+   por systemd, pero las unidades `.mount` autogeneradas por systemd
+   quedan con la versión vieja hasta el reload — relevante si algo más
+   depende de esa unidad (`systemctl start datos.mount`, dependencias
+   de servicio). Buena práctica real: `systemctl daemon-reload` después
+   de cualquier edición manual de `fstab`.
+3. **`lvextend -r` resuelve extender LV + filesystem en un solo comando**,
+   confirmado end-to-end: el LV pasó de 2.00 GiB a 3.00 GiB y
+   `xfs_growfs` corrió automáticamente adentro del mismo comando (data
+   blocks 524288 → 786432) — sin pasos separados, tal como plantea la
+   teoría para ahorrar tiempo en el examen.
 
 ## Evidencias
 
-_(pendiente — se completa cuando digas "verifica img")_
+**01 — Estado inicial: LVM ya presente en el disco del sistema**
+`pvs`/`vgs`/`lvs`/`lsblk` en el sistema corriendo, revelando que `sda3` ya es PV de un VG `rhel` con LVs root/swap (hallazgo #1).
+![LVM ya presente en el disco del sistema](evidencias/01-lvm-preexistente-sistema.png)
+
+**02 — Disco nuevo confirmado**
+`lsblk` tras agregar el disco de 5.3 GB en VirtualBox: `sdb` aparece limpio, sin particiones.
+![Disco nuevo sdb confirmado](evidencias/02-lsblk-disco-nuevo-sdb.png)
+
+**03 — Tarea 2: pvcreate**
+`pvcreate /dev/sdb` exitoso.
+![pvcreate /dev/sdb](evidencias/03-pvcreate-sdb.png)
+
+**04 — Tarea 3: vgcreate**
+`vgcreate vg_datos /dev/sdb` exitoso.
+![vgcreate vg_datos](evidencias/04-vgcreate-vg-datos.png)
+
+**05 — Tarea 4: lvcreate**
+`lvcreate -L 2G -n lv_datos vg_datos` exitoso.
+![lvcreate lv_datos de 2G](evidencias/05-lvcreate-lv-datos.png)
+
+**06 — Tarea 5: mkfs.xfs**
+Formateo XFS del LV, 524288 bloques (2 GB) confirmados.
+![mkfs.xfs sobre lv_datos](evidencias/06-mkfs-xfs-lv-datos.png)
+
+**07 — Tarea 6, parte 1: UUID del filesystem**
+`blkid` obteniendo el UUID real para usar en `/etc/fstab`.
+![blkid obteniendo el UUID](evidencias/07-blkid-uuid-lv-datos.png)
+
+**08 — Tarea 6, parte 2: fstab, mount -a y el aviso de systemd**
+Entrada agregada a `/etc/fstab` con el UUID, `mount -a` con el hallazgo #2 (aviso de daemon-reload), y `df -h` confirmando el montaje en `/datos`.
+![fstab, mount -a y aviso de systemd daemon-reload](evidencias/08-fstab-mount-systemd-hint.png)
+
+**09 — Tarea 7: persistencia verificada**
+`daemon-reload`, `umount` y `mount -a` de nuevo, sin errores — el montaje sobrevive.
+![umount y mount -a sin errores](evidencias/09-umount-mount-persistencia.png)
+
+**10 — Tarea 8: lvextend -r**
+Extensión del LV de 2 GiB a 3 GiB con resize de XFS en el mismo comando (hallazgo #3), y `df -h` confirmando el nuevo tamaño.
+![lvextend -r extendiendo LV y filesystem juntos](evidencias/10-lvextend-r-3gb.png)
 
 ## Pendientes
 
-Agregar el disco virtual en VirtualBox y correr las 8 tareas cronometradas
-— falta ejecutar.
+Ninguno — módulo cerrado. No se cronometró el tiempo total exacto de las
+8 tareas por hacerlo guiado paso a paso con explicaciones; repetir sin
+guía para medir contra la meta de 6 minutos queda como ejercicio opcional
+futuro (igual que en el módulo 04).

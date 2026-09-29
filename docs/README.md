@@ -51,7 +51,7 @@ Ambas VMs pueden correr juntas sin problema en un anfitrión de 8 GB.
 
 ## Progreso
 
-**Módulo actual: 05 / 31**
+**Módulo actual: 06 / 31**
 
 ### Fase 0 — RHEL frente al resto del ecosistema
 - [x] 00. Registro con `subscription-manager`, entitlements, instalación de RHEL 10 ([módulo](../00-subscription-manager-instalacion/00-subscription-manager-instalacion.md))
@@ -71,7 +71,7 @@ remoto propio de RHEL descubierto, y simulacro cronometrado de dnf/rpm/
 Flatpak resuelto de punta a punta (~26 min, meta 15 min).
 
 ### Fase II — Almacenamiento
-- [~] 05. LVM completo cronometrado (meta: bajar de 6 minutos) ([módulo](../05-lvm-cronometrado/05-lvm-cronometrado.md))
+- [x] 05. LVM completo cronometrado (meta: bajar de 6 minutos) ([módulo](../05-lvm-cronometrado/05-lvm-cronometrado.md))
 - [ ] 06. Swap, ACLs (setfacl/getfacl), directorios set-GID
 - [ ] 07. NFS y autofs con `rhel10-client`
 - [ ] 08. `/etc/fstab` corrupto — recuperación desde rescate 🔧 *Break & Fix*
