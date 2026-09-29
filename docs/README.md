@@ -60,7 +60,7 @@ Ambas VMs pueden correr juntas sin problema en un anfitrión de 8 GB.
 ### Fase I — Software: dnf/rpm/Flatpak al ritmo del examen
 - [x] 02. Repos vía `subscription-manager repos`, AppStream/BaseOS ([módulo](../02-repos-appstream-baseos/02-repos-appstream-baseos.md))
 - [x] 03. Flatpak: remoto, búsqueda, instalación, listado ([módulo](../03-flatpak-remoto-busqueda-instalacion/03-flatpak-remoto-busqueda-instalacion.md))
-- [ ] 04. Simulacro cronometrado de gestión de software
+- [~] 04. Simulacro cronometrado de gestión de software ([módulo](../04-simulacro-gestion-software/04-simulacro-gestion-software.md))
 
 ### Fase II — Almacenamiento
 - [ ] 05. LVM completo cronometrado (meta: bajar de 6 minutos)
