@@ -1,6 +1,6 @@
 # Módulo 06 — Swap, ACLs (setfacl/getfacl), directorios set-GID
 
-- Estado: En progreso
+- Estado: Completado
 - Fecha: 2026-09-29
 - Versión: RHEL 10.2 (Coughlan)
 - Objetivo diferencial frente a Fedora: ACLs y set-GID son conceptos
@@ -61,13 +61,47 @@ ls -ld /datos
 
 ## Hallazgos reales
 
-_(se completa con lo que salga en la práctica)_
+1. **El swap ya existente (LV `rhel-swap`, módulo 05) confirmado con
+   `free -h`**: 3.9Gi antes de agregar el swap de archivo. Tras
+   `swapon /swapfile`, el total subió a 4.4Gi — la suma de ambos swaps
+   funciona de forma transparente para el kernel, sin necesidad de
+   priorizar uno sobre otro para este caso de uso.
+2. **`setfacl` funcionó sobre `/datos` sin ninguna opción `acl` agregada
+   al mount en `/etc/fstab`** (solo se usó `xfs defaults` en el módulo
+   05) — confirma la teoría: XFS soporta ACLs nativamente, sin
+   configuración extra, a diferencia de ext4 en sistemas viejos.
+3. **La ACL default se heredó correctamente** al crear `prueba.txt`:
+   `user:fbeleno:rwx` con `#effective:rw-` (sin ejecución, por el umask
+   estándar aplicado también a ACLs en archivos nuevos — comportamiento
+   esperado, no una limitación de la ACL en sí).
+4. **`ls -ld` muestra set-GID y ACL en una sola línea**: `drwxrwsr-x+` —
+   la `s` en la posición de ejecución de grupo confirma el set-GID, y el
+   `+` al final indica que el archivo/directorio tiene ACLs más allá de
+   los permisos clásicos. Señal rápida y confiable para detectar ambos
+   mecanismos de un vistazo, sin correr `getfacl`.
 
 ## Evidencias
 
-_(pendiente — se completa cuando digas "verifica img")_
+**01 — Estado de memoria/swap inicial**
+`free -h` mostrando el swap existente (LV rhel-swap, 3.9Gi) y creación del archivo de swap con `fallocate`/`chmod`/`mkswap`.
+![Estado inicial de swap y creación del swapfile](evidencias/01-free-fallocate-mkswap.png)
+
+**02 — swapon y confirmación**
+`swapon /swapfile` y `free -h` confirmando el total sumado a 4.4Gi (hallazgo #1).
+![swapon y free -h confirmando 4.4Gi](evidencias/02-swapon-free-confirmacion.png)
+
+**03 — Persistencia en fstab**
+Entrada agregada a `/etc/fstab`, `swapoff`/`swapon -a` confirmando que persiste igual tras un ciclo completo.
+![Persistencia del swap en fstab](evidencias/03-fstab-swapoff-swapon-a.png)
+
+**04 — ACL puntual sobre /datos**
+`setfacl -m u:fbeleno:rwx /datos` y `getfacl` mostrando el resultado, sin haber tocado el mount de XFS (hallazgo #2).
+![setfacl y getfacl sobre /datos](evidencias/04-setfacl-getfacl-datos.png)
+
+**05 — ACL default, herencia y set-GID**
+ACL default aplicada, archivo nuevo heredándola (hallazgo #3), `chmod g+s` y `ls -ld` mostrando `drwxrwsr-x+` (hallazgo #4).
+![ACL default, herencia y set-GID en una sola captura](evidencias/05-acl-default-herencia-setgid.png)
 
 ## Pendientes
 
-Falta ejecutar ACLs y set-GID — solo se corrió el swap adicional hasta
-ahora.
+Ninguno — módulo cerrado.
