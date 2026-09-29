@@ -71,7 +71,7 @@ remoto propio de RHEL descubierto, y simulacro cronometrado de dnf/rpm/
 Flatpak resuelto de punta a punta (~26 min, meta 15 min).
 
 ### Fase II — Almacenamiento
-- [ ] 05. LVM completo cronometrado (meta: bajar de 6 minutos)
+- [~] 05. LVM completo cronometrado (meta: bajar de 6 minutos) ([módulo](../05-lvm-cronometrado/05-lvm-cronometrado.md))
 - [ ] 06. Swap, ACLs (setfacl/getfacl), directorios set-GID
 - [ ] 07. NFS y autofs con `rhel10-client`
 - [ ] 08. `/etc/fstab` corrupto — recuperación desde rescate 🔧 *Break & Fix*
