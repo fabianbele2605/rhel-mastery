@@ -51,16 +51,24 @@ Ambas VMs pueden correr juntas sin problema en un anfitrión de 8 GB.
 
 ## Progreso
 
-**Módulo actual: 04 / 31**
+**Módulo actual: 05 / 31**
 
 ### Fase 0 — RHEL frente al resto del ecosistema
 - [x] 00. Registro con `subscription-manager`, entitlements, instalación de RHEL 10 ([módulo](../00-subscription-manager-instalacion/00-subscription-manager-instalacion.md))
 - [x] 01. Flujo Fedora → CentOS Stream → RHEL, ciclo de vida de 10 años (EUS/ELS) ([módulo](../01-rhel-vs-fedora-vs-centos-stream/01-rhel-vs-fedora-vs-centos-stream.md))
 
+**Fase 0 completa**: sistema registrado con entitlements reales, y el
+linaje Fedora → CentOS Stream → RHEL confirmado en el propio sistema
+instalado.
+
 ### Fase I — Software: dnf/rpm/Flatpak al ritmo del examen
 - [x] 02. Repos vía `subscription-manager repos`, AppStream/BaseOS ([módulo](../02-repos-appstream-baseos/02-repos-appstream-baseos.md))
 - [x] 03. Flatpak: remoto, búsqueda, instalación, listado ([módulo](../03-flatpak-remoto-busqueda-instalacion/03-flatpak-remoto-busqueda-instalacion.md))
-- [~] 04. Simulacro cronometrado de gestión de software ([módulo](../04-simulacro-gestion-software/04-simulacro-gestion-software.md))
+- [x] 04. Simulacro cronometrado de gestión de software ([módulo](../04-simulacro-gestion-software/04-simulacro-gestion-software.md))
+
+**Fase I completa**: catálogo completo de repos mapeado, Flatpak con
+remoto propio de RHEL descubierto, y simulacro cronometrado de dnf/rpm/
+Flatpak resuelto de punta a punta (~26 min, meta 15 min).
 
 ### Fase II — Almacenamiento
 - [ ] 05. LVM completo cronometrado (meta: bajar de 6 minutos)
