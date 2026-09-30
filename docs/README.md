@@ -73,7 +73,7 @@ Flatpak resuelto de punta a punta (~26 min, meta 15 min).
 ### Fase II — Almacenamiento
 - [x] 05. LVM completo cronometrado (meta: bajar de 6 minutos) ([módulo](../05-lvm-cronometrado/05-lvm-cronometrado.md))
 - [x] 06. Swap, ACLs (setfacl/getfacl), directorios set-GID ([módulo](../06-swap-acl-setgid/06-swap-acl-setgid.md))
-- [ ] 07. NFS y autofs con `rhel10-client`
+- [~] 07. NFS y autofs con `rhel10-client` ([módulo](../07-nfs-autofs/07-nfs-autofs.md))
 - [ ] 08. `/etc/fstab` corrupto — recuperación desde rescate 🔧 *Break & Fix*
 
 ### Fase III — Red, servicios y scheduling
