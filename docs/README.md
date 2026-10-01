@@ -51,7 +51,7 @@ Ambas VMs pueden correr juntas sin problema en un anfitrión de 8 GB.
 
 ## Progreso
 
-**Módulo actual: 08 / 31**
+**Módulo actual: 09 / 31**
 
 ### Fase 0 — RHEL frente al resto del ecosistema
 - [x] 00. Registro con `subscription-manager`, entitlements, instalación de RHEL 10 ([módulo](../00-subscription-manager-instalacion/00-subscription-manager-instalacion.md))
@@ -74,7 +74,12 @@ Flatpak resuelto de punta a punta (~26 min, meta 15 min).
 - [x] 05. LVM completo cronometrado (meta: bajar de 6 minutos) ([módulo](../05-lvm-cronometrado/05-lvm-cronometrado.md))
 - [x] 06. Swap, ACLs (setfacl/getfacl), directorios set-GID ([módulo](../06-swap-acl-setgid/06-swap-acl-setgid.md))
 - [x] 07. NFS y autofs con `rhel10-client` ([módulo](../07-nfs-autofs/07-nfs-autofs.md))
-- [~] 08. `/etc/fstab` corrupto — recuperación desde rescate 🔧 *Break & Fix* ([módulo](../08-breakfix-fstab-corrupto/08-breakfix-fstab-corrupto.md))
+- [x] 08. `/etc/fstab` corrupto — recuperación desde rescate 🔧 *Break & Fix* ([módulo](../08-breakfix-fstab-corrupto/08-breakfix-fstab-corrupto.md))
+
+**Fase II completa**: LVM de punta a punta, swap adicional, ACLs/set-GID
+sobre XFS, NFS+autofs entre las dos VMs del curso, y el primer Break &
+Fix real del curso (fstab corrupto → emergency mode → diagnóstico →
+recuperación sin pérdida de datos).
 
 ### Fase III — Red, servicios y scheduling
 - [ ] 09. `nmcli` IPv4/IPv6 estático
