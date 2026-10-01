@@ -1,6 +1,6 @@
 # Módulo 11 — `chrony` y journal persistente
 
-- Estado: En progreso
+- Estado: Completado
 - Fecha: 2026-10-01
 - Versión: RHEL 10.2 (Coughlan)
 - Objetivo diferencial frente a Fedora: la lógica de `chrony` es la
@@ -75,6 +75,23 @@ journalctl --list-boots
    instalación — cada reboot anterior perdió su historial completo, algo
    que no sucede por defecto en Fedora Workstation.
 
+6. **El primer intento de hacerlo persistente no alcanzó** — crear
+   `/var/log/journal` y hacer `systemctl restart systemd-journald` no
+   migra automáticamente los datos volátiles ya acumulados en `/run`
+   hacia el disco. El flush real de `/run` a `/var/log/journal` ocurre
+   vía `systemd-journal-flush.service`, un oneshot que corre temprano en
+   el **arranque**, no al reiniciar el daemon en caliente — o se invoca
+   explícitamente con `journalctl --flush`. Como no se hizo ninguna de
+   las dos cosas, el primer reboot posterior perdió igual todo el
+   historial de esa sesión (`journalctl --list-boots` después del primer
+   reboot mostró un único boot nuevo, sin rastro del anterior).
+7. **La segunda vuelta confirmó la persistencia real**: con el directorio
+   ya existente *desde el inicio* del boot siguiente, `system.journal` y
+   `user-1000.journal` se crearon correctamente en
+   `/var/log/journal/<machine-id>/`, y tras un segundo reboot
+   `journalctl --list-boots` mostró **dos boots acumulados** (`IDX -1` y
+   `IDX 0`) — la persistencia funciona de ahí en adelante sin problema.
+
 ## Evidencias
 
 **01 — chronyd activo y sincronizando**
@@ -85,7 +102,30 @@ journalctl --list-boots
 `chronyc sources` con servidores geográficamente cercanos (hallazgo #2), `timedatectl` confirmando sincronización (hallazgo #4), y la ausencia de `/var/log/journal` junto con un único boot registrado (hallazgo #5).
 ![chronyc sources, timedatectl y journal volátil](evidencias/02-sources-timedatectl-journal-volatil.png)
 
+**03 — Directorio y machine-id creados**
+`mkdir`/`systemd-tmpfiles`/`restart systemd-journald` ejecutados, y `journalctl --list-boots` todavía mostrando un solo boot continuo (sin indicio todavía del problema).
+![Directorio de journal persistente creado](evidencias/03-mkdir-tmpfiles-restart-journald.png)
+
+**04 — Primer intento fallido: boot perdido tras reboot**
+Tras el primer reboot, `journalctl --list-boots` muestra un boot completamente nuevo, sin el anterior — confirma el hallazgo #6 (faltó el flush explícito).
+![Boot anterior perdido tras el primer reboot](evidencias/04-boot-perdido-primer-reboot.png)
+
+**05 — Diagnóstico del journald.conf y estructura de directorios**
+`journald.conf` en su ubicación default (`/usr/lib/systemd/`, sin override en `/etc`), y confirmación de que `/var/log/journal/<machine-id>/` sí existe correctamente.
+![Diagnóstico de journald.conf y estructura de directorios](evidencias/05-diagnostico-journald-conf-estructura.png)
+
+**06 — Archivos de journal persistente creados**
+`system.journal` y `user-1000.journal` ya materializados en disco, con el boot actual todavía acumulando datos.
+![Archivos de journal persistente en disco](evidencias/06-archivos-journal-persistente.png)
+
+**07 — Boot colgado en el segundo reboot**
+El arranque se queda en el spinner de carga más tiempo del normal (como en el módulo 08) — resultó ser una espera normal, no un problema nuevo.
+![Boot colgado en el spinner durante el segundo reboot](evidencias/07-boot-colgado-segundo-reboot.png)
+
+**08 — Validación final: dos boots acumulados**
+`journalctl --list-boots` tras el segundo reboot mostrando `IDX -1` (boot anterior) e `IDX 0` (boot actual) — persistencia confirmada de punta a punta (hallazgo #7).
+![Dos boots acumulados, persistencia confirmada](evidencias/08-dos-boots-acumulados-validacion.png)
+
 ## Pendientes
 
-Falta hacer el journal persistente y confirmar con un reboot que los
-boots se acumulan en `journalctl --list-boots`.
+Ninguno — módulo cerrado.

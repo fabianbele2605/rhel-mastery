@@ -51,7 +51,7 @@ Ambas VMs pueden correr juntas sin problema en un anfitrión de 8 GB.
 
 ## Progreso
 
-**Módulo actual: 11 / 31**
+**Módulo actual: 12 / 31**
 
 ### Fase 0 — RHEL frente al resto del ecosistema
 - [x] 00. Registro con `subscription-manager`, entitlements, instalación de RHEL 10 ([módulo](../00-subscription-manager-instalacion/00-subscription-manager-instalacion.md))
@@ -84,7 +84,7 @@ recuperación sin pérdida de datos).
 ### Fase III — Red, servicios y scheduling
 - [x] 09. `nmcli` IPv4/IPv6 estático ([módulo](../09-nmcli-ipv4-ipv6-estatico/09-nmcli-ipv4-ipv6-estatico.md))
 - [x] 10. `firewalld` con `--permanent --reload` ([módulo](../10-firewalld-permanent-reload/10-firewalld-permanent-reload.md))
-- [~] 11. `chrony` y journal persistente ([módulo](../11-chrony-journal-persistente/11-chrony-journal-persistente.md))
+- [x] 11. `chrony` y journal persistente ([módulo](../11-chrony-journal-persistente/11-chrony-journal-persistente.md))
 - [ ] 12. Systemd timers (`.service`/`.timer` a mano)
 - [ ] 13. Regla de firewall sin `--permanent` 🔧 *Break & Fix*
 
