@@ -82,7 +82,7 @@ Fix real del curso (fstab corrupto → emergency mode → diagnóstico →
 recuperación sin pérdida de datos).
 
 ### Fase III — Red, servicios y scheduling
-- [ ] 09. `nmcli` IPv4/IPv6 estático
+- [~] 09. `nmcli` IPv4/IPv6 estático ([módulo](../09-nmcli-ipv4-ipv6-estatico/09-nmcli-ipv4-ipv6-estatico.md))
 - [ ] 10. `firewalld` con `--permanent --reload`
 - [ ] 11. `chrony` y journal persistente
 - [ ] 12. Systemd timers (`.service`/`.timer` a mano)
