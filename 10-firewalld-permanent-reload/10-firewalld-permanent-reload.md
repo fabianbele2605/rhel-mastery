@@ -1,6 +1,6 @@
 # Módulo 10 — `firewalld` con `--permanent --reload`
 
-- Estado: En progreso
+- Estado: Completado
 - Fecha: 2026-10-01
 - Versión: RHEL 10.2 (Coughlan)
 - Objetivo diferencial frente a Fedora: `firewalld` en sí ya se conoce de
@@ -65,12 +65,28 @@ sudo firewall-cmd --zone=public --list-ports
    `rpc-bind`, `mountd` (módulo 07), además de `cockpit`, `dhcpv6-client`,
    `ssh` por defecto — confirma que las reglas de firewall persisten
    entre módulos, como se espera.
+3. **El cambio de zona de interfaz está coordinado con NetworkManager**:
+   `firewall-cmd --change-interface` respondió "The interface is under
+   control of NetworkManager, setting zone to 'internal'" — en RHEL 8+
+   la asignación de zona no es solo cosa de `firewalld` en aislamiento,
+   sino que se sincroniza con quien realmente controla la interfaz
+   (NetworkManager), a diferencia del modelo viejo de binding
+   independiente por XML.
 
 ## Evidencias
 
-_(se completa con lo que salga en la práctica)_
+**01 — Estado inicial de zonas**
+`--get-default-zone`, `--get-active-zones` y `--list-all` mostrando ambas interfaces en `public` con los servicios ya acumulados de módulos anteriores (hallazgo #2).
+![Estado inicial de zonas de firewalld](evidencias/01-estado-inicial-zonas.png)
+
+**02 — Separación de interfaces por zona**
+`--change-interface=enp0s8` a la zona `internal`, con el mensaje de coordinación con NetworkManager (hallazgo #3), y `--get-active-zones` confirmando la separación final.
+![enp0s8 movida a zona internal](evidencias/02-cambio-zona-internal-networkmanager.png)
+
+**03 — add-service y add-port con el flujo correcto**
+`--permanent --add-service=http` y `--permanent --add-port=8080/tcp`, cada uno seguido de `--reload`, confirmados con `--list-services` y `--list-ports`.
+![add-service y add-port con permanent y reload](evidencias/03-add-service-add-port-flujo-correcto.png)
 
 ## Pendientes
 
-Falta mover `enp0s8` a una zona interna y practicar `--add-service`/
-`--add-port` con el flujo correcto.
+Ninguno — módulo cerrado.
