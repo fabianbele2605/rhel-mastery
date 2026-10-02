@@ -86,7 +86,7 @@ recuperación sin pérdida de datos).
 - [x] 10. `firewalld` con `--permanent --reload` ([módulo](../10-firewalld-permanent-reload/10-firewalld-permanent-reload.md))
 - [x] 11. `chrony` y journal persistente ([módulo](../11-chrony-journal-persistente/11-chrony-journal-persistente.md))
 - [x] 12. Systemd timers (`.service`/`.timer` a mano) ([módulo](../12-systemd-timers/12-systemd-timers.md))
-- [ ] 13. Regla de firewall sin `--permanent` 🔧 *Break & Fix*
+- [~] 13. Regla de firewall sin `--permanent` 🔧 *Break & Fix* ([módulo](../13-breakfix-firewall-sin-permanent/13-breakfix-firewall-sin-permanent.md))
 
 ### Fase IV — Usuarios y scripting mínimo viable
 - [ ] 14. Usuarios/grupos, `chage`, sudo granular
