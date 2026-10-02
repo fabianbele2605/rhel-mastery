@@ -1,6 +1,6 @@
 # Módulo 14 — Usuarios/grupos, `chage`, sudo granular
 
-- Estado: En progreso
+- Estado: Completado
 - Fecha: 2026-10-02
 - Versión: RHEL 10.2 (Coughlan)
 - Objetivo diferencial frente a Fedora: `useradd`/`usermod`/`groupadd` ya
@@ -54,6 +54,18 @@ sudo -u operador sudo systemctl restart chronyd
 2. **`PASS_MAX_DAYS=99999`** por defecto — en la práctica, "nunca expira"
    (99999 días ≈ 273 años). Los usuarios nuevos no tienen política de
    expiración real hasta que se configure explícitamente con `chage`.
+3. **`chage -E` (expiración de cuenta) y `-M` (expiración de contraseña)
+   son mecanismos realmente independientes**, confirmado en la misma
+   salida de `chage -l`: "La contraseña caduca: dic 31, 2026" (90 días
+   desde el último cambio) vs "La cuenta caduca: ene 01, 2027" (fecha
+   fija) — dos fechas distintas, dos políticas distintas.
+4. **El sudo granular con `NOPASSWD` funciona exactamente a nivel de
+   comando individual**: `operador` pudo reiniciar `sshd` sin contraseña
+   (exit 0 inmediato) pero al intentar `systemctl restart chronyd`
+   (fuera de la regla), `sudo` exigió contraseña — y como el usuario no
+   tiene una configurada, quedó bloqueado con "a password is required".
+   Confirma que no hay "fuga" de privilegios hacia otros comandos aunque
+   ambos sean subcomandos del mismo `systemctl`.
 
 ## Evidencias
 
@@ -61,7 +73,18 @@ sudo -u operador sudo systemctl restart chronyd
 `UID_MIN=1000`, `PASS_MAX_DAYS=99999`, `PASS_MIN_DAYS=0`, y `chage -l operador` mostrando la política por defecto (sin expiración) tras crear el usuario (hallazgos #1 y #2).
 ![Defaults de login.defs y chage -l inicial](evidencias/01-login-defs-chage-inicial.png)
 
+**02 — Política de expiración aplicada**
+`chage -M 90 -m 7 -W 14 -E 2027-01-01` y `chage -l` confirmando las fechas de contraseña y cuenta como mecanismos separados (hallazgo #3).
+![Política de expiración con chage aplicada](evidencias/02-chage-politica-expiracion.png)
+
+**03 — Sudo granular configurado y validado con visudo**
+Regla `NOPASSWD` para un comando puntual en `/etc/sudoers.d/operador-sshd`, `visudo -c` confirmando "parsed OK", y `sudo -l` mostrando exactamente ese único comando permitido.
+![Sudo granular con visudo y sudo -l](evidencias/03-sudo-granular-visudo-sudo-l.png)
+
+**04 — Granularidad confirmada: permitido vs denegado**
+`operador` reinicia `sshd` sin contraseña (exit 0), pero al intentar `chronyd` (fuera de la regla) queda bloqueado pidiendo una contraseña que no existe (hallazgo #4).
+![sshd permitido, chronyd denegado](evidencias/04-sshd-permitido-chronyd-denegado.png)
+
 ## Pendientes
 
-Falta configurar la política de expiración concreta con `chage` y
-probar el sudo granular.
+Ninguno — módulo cerrado.
