@@ -51,7 +51,7 @@ Ambas VMs pueden correr juntas sin problema en un anfitrión de 8 GB.
 
 ## Progreso
 
-**Módulo actual: 13 / 31**
+**Módulo actual: 14 / 31**
 
 ### Fase 0 — RHEL frente al resto del ecosistema
 - [x] 00. Registro con `subscription-manager`, entitlements, instalación de RHEL 10 ([módulo](../00-subscription-manager-instalacion/00-subscription-manager-instalacion.md))
@@ -86,7 +86,13 @@ recuperación sin pérdida de datos).
 - [x] 10. `firewalld` con `--permanent --reload` ([módulo](../10-firewalld-permanent-reload/10-firewalld-permanent-reload.md))
 - [x] 11. `chrony` y journal persistente ([módulo](../11-chrony-journal-persistente/11-chrony-journal-persistente.md))
 - [x] 12. Systemd timers (`.service`/`.timer` a mano) ([módulo](../12-systemd-timers/12-systemd-timers.md))
-- [~] 13. Regla de firewall sin `--permanent` 🔧 *Break & Fix* ([módulo](../13-breakfix-firewall-sin-permanent/13-breakfix-firewall-sin-permanent.md))
+- [x] 13. Regla de firewall sin `--permanent` 🔧 *Break & Fix* ([módulo](../13-breakfix-firewall-sin-permanent/13-breakfix-firewall-sin-permanent.md))
+
+**Fase III completa**: IPv4/IPv6 estático en ambas VMs, zonas de
+firewalld separadas por interfaz, chrony y journal persistente
+verificados, systemd timers propios funcionando de punta a punta, y el
+segundo Break & Fix del curso (regla de firewall sin `--permanent`,
+diagnosticada sin necesitar el reboot para confirmarla).
 
 ### Fase IV — Usuarios y scripting mínimo viable
 - [ ] 14. Usuarios/grupos, `chage`, sudo granular
