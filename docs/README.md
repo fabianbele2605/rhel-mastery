@@ -96,7 +96,7 @@ diagnosticada sin necesitar el reboot para confirmarla).
 
 ### Fase IV — Usuarios y scripting mínimo viable
 - [x] 14. Usuarios/grupos, `chage`, sudo granular ([módulo](../14-usuarios-chage-sudo-granular/14-usuarios-chage-sudo-granular.md))
-- [ ] 15. Shell scripting a nivel de examen
+- [~] 15. Shell scripting a nivel de examen ([módulo](../15-shell-scripting-examen/15-shell-scripting-examen.md))
 
 ### Fase V — SELinux en producción
 - [ ] 16. Bucle diagnosticar → corregir → verificar
