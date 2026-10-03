@@ -51,7 +51,7 @@ Ambas VMs pueden correr juntas sin problema en un anfitrión de 8 GB.
 
 ## Progreso
 
-**Módulo actual: 15 / 31**
+**Módulo actual: 16 / 31**
 
 ### Fase 0 — RHEL frente al resto del ecosistema
 - [x] 00. Registro con `subscription-manager`, entitlements, instalación de RHEL 10 ([módulo](../00-subscription-manager-instalacion/00-subscription-manager-instalacion.md))
@@ -96,7 +96,11 @@ diagnosticada sin necesitar el reboot para confirmarla).
 
 ### Fase IV — Usuarios y scripting mínimo viable
 - [x] 14. Usuarios/grupos, `chage`, sudo granular ([módulo](../14-usuarios-chage-sudo-granular/14-usuarios-chage-sudo-granular.md))
-- [~] 15. Shell scripting a nivel de examen ([módulo](../15-shell-scripting-examen/15-shell-scripting-examen.md))
+- [x] 15. Shell scripting a nivel de examen ([módulo](../15-shell-scripting-examen/15-shell-scripting-examen.md))
+
+**Fase IV completa**: usuarios/grupos con políticas de expiración reales
+(`chage`), sudo granular por comando individual, y un script de bash
+idempotente que reporta estado de servicios con el exit code correcto.
 
 ### Fase V — SELinux en producción
 - [ ] 16. Bucle diagnosticar → corregir → verificar
