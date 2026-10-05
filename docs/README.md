@@ -104,7 +104,7 @@ idempotente que reporta estado de servicios con el exit code correcto.
 
 ### Fase V — SELinux en producción
 - [x] 16. Bucle diagnosticar → corregir → verificar ([módulo](../16-selinux-bucle-diagnostico/16-selinux-bucle-diagnostico.md))
-- [ ] 17. Romper y arreglar un servicio real x5
+- [~] 17. Romper y arreglar un servicio real x5 ([módulo](../17-romper-arreglar-servicio-x5/17-romper-arreglar-servicio-x5.md))
 - [ ] 18. Contexto roto tras mover archivos 🔧 *Break & Fix*
 
 ### Fase VI — Simulacro RHCSA completo
