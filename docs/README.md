@@ -51,7 +51,7 @@ Ambas VMs pueden correr juntas sin problema en un anfitrión de 8 GB.
 
 ## Progreso
 
-**Módulo actual: 18 / 31**
+**Módulo actual: 19 / 31**
 
 ### Fase 0 — RHEL frente al resto del ecosistema
 - [x] 00. Registro con `subscription-manager`, entitlements, instalación de RHEL 10 ([módulo](../00-subscription-manager-instalacion/00-subscription-manager-instalacion.md))
@@ -105,7 +105,14 @@ idempotente que reporta estado de servicios con el exit code correcto.
 ### Fase V — SELinux en producción
 - [x] 16. Bucle diagnosticar → corregir → verificar ([módulo](../16-selinux-bucle-diagnostico/16-selinux-bucle-diagnostico.md))
 - [x] 17. Romper y arreglar un servicio real x5 ([módulo](../17-romper-arreglar-servicio-x5/17-romper-arreglar-servicio-x5.md))
-- [~] 18. Contexto roto tras mover archivos 🔧 *Break & Fix* ([módulo](../18-breakfix-contexto-roto-mover-archivos/18-breakfix-contexto-roto-mover-archivos.md))
+- [x] 18. Contexto roto tras mover archivos 🔧 *Break & Fix* ([módulo](../18-breakfix-contexto-roto-mover-archivos/18-breakfix-contexto-roto-mover-archivos.md))
+
+**Fase V completa**: bucle diagnosticar → corregir → verificar dominado
+en tres capas (DAC, SELinux, errores enmascarados por la propia app),
+cinco escenarios rápidos de romper/arreglar servicios reales, y el
+tercer Break & Fix del curso (migración de archivos rompiendo contexto
+a escala, diagnosticada proactivamente con `matchpathcon` antes de
+corregir).
 
 ### Fase VI — Simulacro RHCSA completo
 - [ ] 19. Primer simulacro de 3 horas
