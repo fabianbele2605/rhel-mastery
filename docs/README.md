@@ -115,7 +115,7 @@ a escala, diagnosticada proactivamente con `matchpathcon` antes de
 corregir).
 
 ### Fase VI — Simulacro RHCSA completo
-- [ ] 19. Primer simulacro de 3 horas
+- [~] 19. Primer simulacro de 3 horas ([módulo](../19-simulacro-rhcsa-3h-primero/19-simulacro-rhcsa-3h-primero.md))
 - [ ] 20. Segundo simulacro + reparación de puntos débiles
 - [ ] 21. Simulacro final + checklist de errores comunes
 
